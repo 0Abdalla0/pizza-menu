@@ -88,6 +88,9 @@ const Menu = () => {
 
 function Pizza(props) {
   console.log(props);
+  if (props.pizzaObj.soldOut) {
+    return null;
+  }
   return (
     <li className="pizza">
       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
@@ -103,7 +106,7 @@ function Pizza(props) {
 // !FOOTER
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 10;
+  const openHour = 8;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
@@ -112,17 +115,23 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <div className="order">
-          <p>We are open until {closeHour}:00</p>
-          <button className="btn">Order Now</button>
-        </div>
-      ):(<p>We are closed. Open at {openHour}:00</p>)}
+        <Order closeHour={22} />
+      ) : (
+        <p>We are closed. Open at {openHour}:00</p>
+      )}
     </footer>
   );
 }
 
-export default Footer;
-
+function Order(props) {
+  return (
+    <div className="order">
+      <p>We are open until {props.closeHour}:00</p>
+      <button className="btn">Order Now</button>
+    </div>
+  );
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
 //React V18
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
